@@ -1,0 +1,82 @@
+# Vercel ignore file
+# Files and directories to exclude from Vercel deployment
+
+# Development files
+.env.local
+.env.development
+.env.staging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Testing
+coverage
+.nyc_output
+*.lcov
+__tests__
+**/*.test.*
+**/*.spec.*
+
+# Documentation
+README.md
+README-*.md
+*.md
+docs/
+
+# Scripts (keep only production build script)
+scripts/
+!scripts/build-production.js
+
+# Build artifacts (Vercel will build these)
+dist/
+build/
+
+# Dependencies (Vercel will install these)
+node_modules/
+
+# Temporary files
+tmp/
+temp/
+.cache
+.parcel-cache
+
+# Environment files (use Vercel dashboard instead)
+.env
+.env.*
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+.circleci
+
+# Misc
+.editorconfig
+.prettierrc
+.prettierignore

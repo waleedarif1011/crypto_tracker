@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  crypto-tracker-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"  # Vite dev server port
+    volumes:
+      - .:/app
+      - /app/node_modules  # Prevent overwriting node_modules
+      - /app/dist  # Prevent overwriting dist folder
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-https://api.coingecko.com/api/v3}
+      - VITE_COINGECKO_API_KEY=${VITE_COINGECKO_API_KEY:-}
+      - CHOKIDAR_USEPOLLING=true  # Enable file watching in Docker
+      - WATCHPACK_POLLING=true    # Enable webpack polling
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    networks:
+      - crypto-tracker-network
+
+  # Optional: Add a development database if needed in the future
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - crypto-tracker-network
+
+networks:
+  crypto-tracker-network:
+    driver: bridge
+
+# volumes:
+#   redis_data:

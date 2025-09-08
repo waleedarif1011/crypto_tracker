@@ -1,0 +1,11 @@
+{
+  "orgId": "your-org-id",
+  "projectId": "crypto-tracker",
+  "settings": {
+    "buildCommand": "npm run build:prod",
+    "outputDirectory": "dist",
+    "installCommand": "npm ci",
+    "framework": "vite",
+    "nodeVersion": "18.x"
+  }
+}

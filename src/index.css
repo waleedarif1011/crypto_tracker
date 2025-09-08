@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for consistent theming */
+:root {
+  --color-background: theme('colors.neutral.50');
+  --color-surface: theme('colors.white');
+  --color-text-primary: theme('colors.neutral.900');
+  --color-text-secondary: theme('colors.neutral.600');
+  --color-text-muted: theme('colors.neutral.400');
+  --color-border: theme('colors.neutral.200');
+  --color-border-hover: theme('colors.neutral.300');
+  --color-primary: theme('colors.primary.600');
+  --color-primary-hover: theme('colors.primary.700');
+  --color-success: theme('colors.success.600');
+  --color-warning: theme('colors.warning.600');
+  --color-danger: theme('colors.danger.600');
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode variables */
+.dark {
+  --color-background: theme('colors.neutral.950');
+  --color-surface: theme('colors.neutral.900');
+  --color-text-primary: theme('colors.neutral.50');
+  --color-text-secondary: theme('colors.neutral.300');
+  --color-text-muted: theme('colors.neutral.500');
+  --color-border: theme('colors.neutral.800');
+  --color-border-hover: theme('colors.neutral.700');
+  --color-primary: theme('colors.primary.400');
+  --color-primary-hover: theme('colors.primary.300');
+  --color-success: theme('colors.success.400');
+  --color-warning: theme('colors.warning.400');
+  --color-danger: theme('colors.danger.400');
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom component styles */
+.crypto-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.crypto-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-hover);
+}
+
+.crypto-button {
+  background-color: var(--color-primary);
+  color: white;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.crypto-button:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.crypto-button-secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.crypto-button-secondary:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-border-hover);
+}
+
+.crypto-input {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease;
+}
+
+.crypto-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Price change indicators */
+.price-up {
+  color: var(--color-success);
+}
+
+.price-down {
+  color: var(--color-danger);
+}
+
+.price-neutral {
+  color: var(--color-text-secondary);
+}
+
+/* Loading states */
+.crypto-loading {
+  background: linear-gradient(90deg,
+    var(--color-border) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--color-border) 50%,
+    var(--color-border) 75%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .crypto-card {
+    margin: 0.5rem;
+  }
+}
