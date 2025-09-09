@@ -314,7 +314,7 @@ export const mockCryptoData = [
     atl_date: '2019-05-10T00:00:00.000Z',
     roi: {
       times: 312.5,
-      currency: 'usd',
+      currency: 'usdt',
       percentage: 31250.0
     },
     last_updated: new Date().toISOString(),
@@ -399,10 +399,10 @@ export const getMockCoinDetail = (coinId) => {
     },
     market_data: {
       current_price: {
-        usd: coin.current_price
+        usdt: coin.current_price
       },
       market_cap: {
-        usd: coin.market_cap
+        usdt: coin.market_cap
       },
       market_cap_rank: coin.market_cap_rank,
       price_change_percentage_24h: coin.price_change_percentage_24h,
@@ -413,34 +413,34 @@ export const getMockCoinDetail = (coinId) => {
       price_change_percentage_200d: coin.price_change_percentage_24h * 8, // Mock 200d change
       price_change_percentage_1y: coin.price_change_percentage_24h * 12, // Mock 1y change
       total_volume: {
-        usd: coin.total_volume
+        usdt: coin.total_volume
       },
       high_24h: {
-        usd: coin.high_24h
+        usdt: coin.high_24h
       },
       low_24h: {
-        usd: coin.low_24h
+        usdt: coin.low_24h
       },
       circulating_supply: coin.circulating_supply,
       total_supply: coin.total_supply,
       max_supply: coin.max_supply,
       ath: {
-        usd: coin.ath
+        usdt: coin.ath
       },
       ath_change_percentage: {
-        usd: coin.ath_change_percentage
+        usdt: coin.ath_change_percentage
       },
       ath_date: {
-        usd: coin.ath_date
+        usdt: coin.ath_date
       },
       atl: {
-        usd: coin.atl
+        usdt: coin.atl
       },
       atl_change_percentage: {
-        usd: coin.atl_change_percentage
+        usdt: coin.atl_change_percentage
       },
       atl_date: {
-        usd: coin.atl_date
+        usdt: coin.atl_date
       },
       last_updated: coin.last_updated
     },

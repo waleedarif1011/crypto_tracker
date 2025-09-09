@@ -41,7 +41,7 @@ GET /coins/markets
 **Parameters:**
 ```typescript
 interface MarketDataParams {
-  vs_currency: string;        // Currency for price data (e.g., 'usd')
+  vs_currency: string;        // Currency for price data (e.g., 'usdt')
   order: string;              // Sort order ('market_cap_desc', 'market_cap_asc', 'volume_desc', 'volume_asc', 'id_desc', 'id_asc')
   per_page: number;           // Results per page (1-250)
   page: number;               // Page number
@@ -55,7 +55,7 @@ interface MarketDataParams {
 **Example Request:**
 ```typescript
 const params = {
-  vs_currency: 'usd',
+  vs_currency: 'usdt',
   order: 'market_cap_desc',
   per_page: 50,
   page: 1,
@@ -330,7 +330,7 @@ interface MarketChartParams {
 ```typescript
 const coinId = 'bitcoin';
 const params = {
-  vs_currency: 'usd',
+  vs_currency: 'usdt',
   days: 7,
   interval: 'daily'
 };

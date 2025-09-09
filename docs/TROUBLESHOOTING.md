@@ -120,7 +120,7 @@ npm run validate-env
 ping api.coingecko.com
 
 # Test API endpoint directly
-curl "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1"
+curl "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usdt&order=market_cap_desc&per_page=10&page=1"
 ```
 
 #### Issue: Chart Data Not Displaying
@@ -138,7 +138,7 @@ curl "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=marke
 # Check src/utils/dataProcessing.ts
 
 # Test chart data endpoint
-curl "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7"
+curl "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usdt&days=7"
 ```
 
 ### Docker Issues

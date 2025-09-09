@@ -172,14 +172,14 @@ const makeRequest = async (endpoint, params = {}) => {
  * @property {string} image.large
  * @property {Object} market_data
  * @property {Object} market_data.current_price
- * @property {number} market_data.current_price.usd
- * @property {number} market_data.market_cap.usd
+ * @property {number} market_data.current_price.usdt
+ * @property {number} market_data.market_cap.usdt
  * @property {number} market_data.market_cap_rank
- * @property {number} market_data.total_volume.usd
+ * @property {number} market_data.total_volume.usdt
  * @property {Object} market_data.high_24h
- * @property {number} market_data.high_24h.usd
+ * @property {number} market_data.high_24h.usdt
  * @property {Object} market_data.low_24h
- * @property {number} market_data.low_24h.usd
+ * @property {number} market_data.low_24h.usdt
  * @property {number} market_data.price_change_24h
  * @property {number} market_data.price_change_percentage_24h
  * @property {Object} description
@@ -199,7 +199,7 @@ export const getCoinsList = async () => {
 /**
  * Get market data for cryptocurrencies
  * @param {Object} options - Query options
- * @param {string} options.vs_currency - Target currency (default: 'usd')
+ * @param {string} options.vs_currency - Target currency (default: 'usdt')
  * @param {string} options.order - Sort order (default: 'market_cap_desc')
  * @param {number} options.per_page - Results per page (default: 100, max: 250)
  * @param {number} options.page - Page number (default: 1)
@@ -209,7 +209,7 @@ export const getCoinsList = async () => {
  */
 export const getCoinsMarkets = async (options = {}) => {
   const defaultOptions = {
-    vs_currency: 'usd',
+    vs_currency: 'usdt',
     order: 'market_cap_desc',
     per_page: 100,
     page: 1,
@@ -278,14 +278,14 @@ export const getCoinDetail = async (coinId, options = {}) => {
 /**
  * Get historical price data for a coin
  * @param {string} coinId - Coin ID
- * @param {string} vs_currency - Target currency (default: 'usd')
+ * @param {string} vs_currency - Target currency (default: 'usdt')
  * @param {string} days - Number of days of data (default: '7')
  * @param {string} interval - Data interval (default: 'daily')
  * @returns {Promise<Object>}
  */
 export const getCoinHistory = async (
   coinId,
-  vs_currency = 'usd',
+  vs_currency = 'usdt',
   days = '7',
   interval = 'daily'
 ) => {
@@ -321,7 +321,7 @@ export const getCoinHistory = async (
  */
 export const getSimplePrices = async (
   coinIds,
-  vs_currencies = ['usd'],
+  vs_currencies = ['usdt'],
   include_market_cap = false,
   include_24hr_vol = false,
   include_24hr_change = false,
@@ -373,22 +373,22 @@ export const getTopCryptosWithVanryPriority = async (options = {}) => {
     // First, try to get Vanry data specifically
     let vanryData = null;
     try {
-      const vanryResult = await getSimplePrices(['vanry'], ['usd'], true, true, true, true);
+      const vanryResult = await getSimplePrices(['vanry'], ['usdt'], true, true, true, true);
       if (vanryResult && vanryResult.vanry) {
         vanryData = {
           id: 'vanry',
           symbol: 'vanry',
           name: 'Vanry',
           image: 'https://assets.coingecko.com/coins/images/24484/large/4eL9gKU.png',
-          current_price: vanryResult.vanry.usd || 0,
-          market_cap: vanryResult.vanry.usd_market_cap || 0,
-          market_cap_rank: vanryResult.vanry.usd_market_cap_rank || 999,
-          total_volume: vanryResult.vanry.usd_24h_vol || 0,
-          price_change_percentage_24h: vanryResult.vanry.usd_24h_change || 0,
+          current_price: vanryResult.vanry.usdt || 0,
+          market_cap: vanryResult.vanry.usdt_market_cap || 0,
+          market_cap_rank: vanryResult.vanry.usdt_market_cap_rank || 999,
+          total_volume: vanryResult.vanry.usdt_24h_vol || 0,
+          price_change_percentage_24h: vanryResult.vanry.usdt_24h_change || 0,
           // Add other required fields with defaults
           fully_diluted_valuation: null,
-          high_24h: vanryResult.vanry.usd || 0,
-          low_24h: vanryResult.vanry.usd || 0,
+          high_24h: vanryResult.vanry.usdt || 0,
+          low_24h: vanryResult.vanry.usdt || 0,
           price_change_24h: 0,
           market_cap_change_24h: 0,
           market_cap_change_percentage_24h: 0,

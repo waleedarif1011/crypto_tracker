@@ -1,0 +1,5 @@
+[33m3a4f579[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: simplify vercel.json to avoid regex pattern errors
+[33m1db9ae5[m fix: convert routes to rewrites/headers in vercel.json
+[33m25aa054[m "Merge remote changes from main branch"
+[33mc668674[m fix: update vercel.json to resolve builds/functions conflict
+[33m11d7436[m Updated username
