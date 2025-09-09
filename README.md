@@ -53,7 +53,7 @@ A modern, responsive cryptocurrency tracking application built with React, TypeS
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/crypto-tracker.git
+   git clone https://github.com/waleedarif1011/crypto-tracker.git
    cd crypto-tracker
    ```
 
