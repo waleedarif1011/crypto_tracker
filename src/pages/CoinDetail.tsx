@@ -117,8 +117,7 @@ export function CoinDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [coinData, setCoinData] = useState<CoinDetailData | null>(null);
-  
-  console.log('CoinDetail component loaded with id:', id);
+
   const [priceHistory, setPriceHistory] = useState<ChartDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [chartLoading, setChartLoading] = useState(true);
@@ -127,15 +126,35 @@ export function CoinDetail() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedTimeframe, setSelectedTimeframe] = useState<'1' | '7' | '30' | '90' | '365'>('7');
 
+  // Validate coin ID parameter
+  if (!id || typeof id !== 'string' || id.trim() === '') {
+    console.error('Invalid or missing coin ID:', id);
+    return (
+      <div>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 mb-4">
+            Invalid Coin ID
+          </h2>
+          <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+            The coin ID provided is invalid or missing.
+          </p>
+          <Button onClick={() => navigate('/')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   // Fetch coin detail data
   useEffect(() => {
     const fetchCoinData = async () => {
-      if (!id) return;
-      
       try {
         setLoading(true);
         setError(null);
-        
+
+        console.log('Fetching coin data for:', id);
         const data = await getCoinDetail(id, {
           localization: false,
           tickers: false,
@@ -144,7 +163,16 @@ export function CoinDetail() {
           developer_data: true,
           sparkline: false,
         });
-        
+
+        if (!data) {
+          throw new Error('Coin data not found');
+        }
+
+        // Validate that required data exists
+        if (!data.market_data) {
+          throw new Error('Market data not available for this coin');
+        }
+
         setCoinData(data);
       } catch (err) {
         console.error('Error fetching coin data:', err);
@@ -160,20 +188,23 @@ export function CoinDetail() {
   // Fetch price history data
   useEffect(() => {
     const fetchPriceHistory = async () => {
-      if (!id) return;
-      
       try {
         setChartLoading(true);
         setChartError(null);
-        
+
+        console.log('Fetching price history for:', id, 'timeframe:', selectedTimeframe);
         const historyData = await getCoinHistory(id, 'usd', selectedTimeframe, 'daily');
-        
+
+        if (!historyData || !historyData.prices || historyData.prices.length === 0) {
+          throw new Error('Price history data not available');
+        }
+
         // Transform data for chart
         const chartData: ChartDataPoint[] = historyData.prices.map(([timestamp, price]: [number, number], index: number) => {
           const previousPrice = index > 0 ? historyData.prices[index - 1][1] : price;
           const priceChange = price - previousPrice;
           const priceChangePercent = previousPrice !== 0 ? (priceChange / previousPrice) * 100 : 0;
-          
+
           return {
             timestamp,
             date: new Date(timestamp).toLocaleDateString(),
@@ -183,7 +214,7 @@ export function CoinDetail() {
             priceChangePercent,
           };
         });
-        
+
         setPriceHistory(chartData);
       } catch (err) {
         console.error('Error fetching price history:', err);
@@ -196,7 +227,10 @@ export function CoinDetail() {
     fetchPriceHistory();
   }, [id, selectedTimeframe]);
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (price: number | undefined | null) => {
+    if (price === undefined || price === null || isNaN(price)) {
+      return 'N/A';
+    }
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -214,7 +248,10 @@ export function CoinDetail() {
     return formatPrice(value);
   };
 
-  const formatPercentage = (value: number) => {
+  const formatPercentage = (value: number | undefined | null) => {
+    if (value === undefined || value === null || isNaN(value)) {
+      return 'N/A';
+    }
     return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
   };
 
@@ -272,7 +309,7 @@ export function CoinDetail() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const priceChange = data.priceChange || 0;
-      const priceChangePercent = data.priceChangePercent || 0;
+      const priceChangePercent = data.priceChangePercent;
       const isPositive = priceChange >= 0;
 
       return (
@@ -289,9 +326,11 @@ export function CoinDetail() {
                 <span className={`text-sm font-medium ${isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                   {isPositive ? '+' : ''}{formatPrice(priceChange)}
                 </span>
-                <span className={`text-sm font-medium ${isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                  ({isPositive ? '+' : ''}{priceChangePercent.toFixed(2)}%)
-                </span>
+                {priceChangePercent !== undefined && priceChangePercent !== null && !isNaN(priceChangePercent) && (
+                  <span className={`text-sm font-medium ${isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                    ({isPositive ? '+' : ''}{priceChangePercent.toFixed(2)}%)
+                  </span>
+                )}
               </div>
             )}
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -319,6 +358,26 @@ export function CoinDetail() {
           <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 mb-4">
             {error || 'Coin not found'}
           </h2>
+          <Button onClick={() => navigate('/')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Validate that required market data exists
+  if (!coinData.market_data) {
+    return (
+      <div>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 mb-4">
+            Market Data Not Available
+          </h2>
+          <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+            Market data is not available for this cryptocurrency.
+          </p>
           <Button onClick={() => navigate('/')}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
@@ -808,11 +867,11 @@ export function CoinDetail() {
                       </p>
                     </div>
                   )}
-                  {coinData.community_data.reddit_average_posts_48h && (
+                  {coinData.community_data.reddit_average_posts_48h !== undefined && coinData.community_data.reddit_average_posts_48h !== null && (
                     <div className="text-center">
                       <p className="text-sm text-neutral-600 dark:text-neutral-400">Reddit Posts (48h)</p>
                       <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-                        {coinData.community_data.reddit_average_posts_48h.toFixed(1)}
+                        {Number(coinData.community_data.reddit_average_posts_48h).toFixed(1)}
                       </p>
                     </div>
                   )}

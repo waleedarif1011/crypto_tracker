@@ -121,7 +121,8 @@ export class ErrorBoundary extends Component<Props, State> {
 
 
   private handleGoHome = () => {
-    window.location.href = '/';
+    // Navigate to home page - use replace to avoid adding to history
+    window.location.replace('/');
   };
 
   render() {
